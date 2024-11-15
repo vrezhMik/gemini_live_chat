@@ -1,0 +1,18 @@
+.server-message {
+  display: flex;
+  margin-bottom: 40px;
+  column-gap: 20px;
+  &-bot-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 32px;
+    width: 32px;
+    border: 0.1px solid #424242;
+    background-color: none;
+    border-radius: 50%;
+  }
+  &-content {
+    color: #ececec;
+  }
+}
