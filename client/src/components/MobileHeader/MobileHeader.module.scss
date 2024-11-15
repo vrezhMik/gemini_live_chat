@@ -1,0 +1,18 @@
+.mobile-header {
+  display: none;
+  justify-content: space-between;
+  width: 90%;
+  margin: 0 auto;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: #212121;
+}
+
+@media (max-width: 770px) {
+  .mobile-header {
+    display: flex;
+  }
+}
