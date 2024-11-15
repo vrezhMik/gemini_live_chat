@@ -1,0 +1,14 @@
+.client-message-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+.client-message {
+  padding: 10px 20px;
+  color: #fff;
+  background-color: #2e2e2e;
+  width: fit-content;
+  border-radius: 20px;
+  max-width: 550px;
+}
