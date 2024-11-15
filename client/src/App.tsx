@@ -1,11 +1,11 @@
 import "./styles/main.scss";
 
-import ChatContainer from "./components/ChatContainerComponent/chatContainer.component";
-import ChatHistory from "./components/ChatHistoryComponent/chatHistory.component";
+import ChatContainer from "./components/ChatContainer/chatContainer.component";
+import ChatHistory from "./components/ChatHistory/chatHistory.component";
 export default function App() {
   return (
     <div className="App">
-      <div className={`chat flex`}>
+      <div className={`main-container flex`}>
         <ChatHistory />
         <ChatContainer />
       </div>
