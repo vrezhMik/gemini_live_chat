@@ -2,4 +2,14 @@
   background-color: #181818;
   max-width: 300px;
   width: 100%;
+  padding: 0px 16px;
+  overflow-y: scroll;
+  &-settings {
+    padding: 16px 0px;
+    display: flex;
+    justify-content: flex-end;
+    &-add-chat {
+      cursor: pointer;
+    }
+  }
 }

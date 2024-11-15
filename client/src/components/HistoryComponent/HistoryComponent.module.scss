@@ -1,0 +1,14 @@
+.history-element {
+  a {
+    color: #ececec;
+    display: block;
+    width: 100%;
+    background-color: transparent;
+    padding: 8px;
+    border-radius: 10px;
+    transition: 0.3s;
+    &:hover {
+      background-color: #212121;
+    }
+  }
+}
