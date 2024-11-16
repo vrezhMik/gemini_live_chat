@@ -6,9 +6,6 @@ import { Message } from "../../utils/types";
 
 export default function ChatContainer() {
   const [messages, setMessages] = useState<Message[]>([]);
-  useEffect(() => {
-    console.log(messages);
-  }, [messages]);
   const handleSendMessage = async (message: string) => {
     const userMessage: Message = { type: "client", prompt: message };
     setMessages((prev) => [...prev, userMessage]); // Add user message
@@ -23,7 +20,10 @@ export default function ChatContainer() {
       });
       const data = await response.json();
 
-      const serverMessage: Message = { type: "server", prompt: data?.reply };
+      const serverMessage: Message = {
+        type: "server",
+        prompt: data.reply.response.candidates[0].content.parts[0].text,
+      };
       setMessages((prev) => [...prev, serverMessage]);
     } catch (error) {
       console.error("Error fetching server response:", error);
