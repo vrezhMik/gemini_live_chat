@@ -4,7 +4,9 @@ import chatRoutes from "./routes/chatRoutes";
 import { authMiddleware } from "./middlewares/authMiddleware";
 import { errorHandler } from "./utils/errorHandler";
 import { environment } from "./config/environment";
+import { connectDB } from "./config/db";
 var cors = require("cors");
+connectDB();
 
 const app = express();
 app.use(cors());

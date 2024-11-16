@@ -1,10 +1,14 @@
 import HistoryComponent from "../HistoryComponent/historyComponent.component";
 import style from "./ChatHistory.module.scss";
 export default function ChatHistory() {
+  const createChat = () => {};
   return (
     <aside className={style["history"]}>
       <div className={style["history-settings"]}>
-        <button className={style["history-settings-add-chat"]}>
+        <button
+          className={style["history-settings-add-chat"]}
+          onClick={createChat}
+        >
           <svg
             width="24"
             height="24"
