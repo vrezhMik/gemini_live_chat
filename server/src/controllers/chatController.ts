@@ -13,7 +13,7 @@ export const chatController = async (
   }
   try {
     const response = await generateText(prompt);
-
+    console.log("Response", response);
     res.status(200).json({ reply: response });
   } catch (error) {
     console.error("Chat Controller Error:", error);
