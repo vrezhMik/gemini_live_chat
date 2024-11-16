@@ -11,7 +11,7 @@ export default function ChatContainer() {
     setMessages((prev) => [...prev, userMessage]); // Add user message
 
     try {
-      const response = await fetch("http://localhost:5001/chat", {
+      const response = await fetch("http://localhost:5002/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

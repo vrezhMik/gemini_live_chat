@@ -1,14 +1,24 @@
 .history-element {
+  display: flex;
+  background-color: transparent;
+  border-radius: 10px;
+  margin-bottom: 5px;
+  padding: 0px 10px;
   a {
     color: #ececec;
     display: block;
     width: 100%;
-    background-color: transparent;
     padding: 8px;
-    border-radius: 10px;
     transition: 0.3s;
-    &:hover {
-      background-color: #212121;
+  }
+  &-control {
+    display: flex;
+    column-gap: 10px;
+    button {
+      cursor: pointer;
     }
+  }
+  &:hover {
+    background-color: #212121;
   }
 }

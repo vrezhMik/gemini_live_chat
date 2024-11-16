@@ -6,7 +6,7 @@ import { IChat } from "./../../utils/types";
 
 export default function ChatHistory() {
   const createChat = async () => {
-    await fetch("http://localhost:5001/new-chat", {
+    await fetch("http://localhost:5002/new-chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -21,7 +21,7 @@ export default function ChatHistory() {
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        const response = await axios.post("http://localhost:5001/get-chats");
+        const response = await axios.post("http://localhost:5002/get-chats");
         setChats(response.data.chats);
       } catch (err: any) {
         setError(err?.messsage || "Failed to load chats");
@@ -56,8 +56,8 @@ export default function ChatHistory() {
           </svg>
         </button>
       </div>
-      {chats.map((chat) => (
-        <HistoryComponent chat={chat} />
+      {chats.map((chat, index) => (
+        <HistoryComponent chat={chat} key={index} />
       ))}
     </aside>
   );
