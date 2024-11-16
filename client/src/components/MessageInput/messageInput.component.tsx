@@ -1,6 +1,10 @@
 import styles from "./MessageInput.module.scss";
 import { useRef, useState } from "react";
-export default function MessageInput() {
+
+type MessageInputProps = {
+  onSendMessage: (message: string) => void;
+};
+export default function MessageInput({ onSendMessage }: MessageInputProps) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const sendButton = useRef<HTMLButtonElement>(null);
   const [isButtonActive, setIsButtonActive] = useState(true);
@@ -21,23 +25,7 @@ export default function MessageInput() {
     if (!textarea || textarea.value.length === 0) return;
     const data = textarea.value;
     textarea.value = "";
-    try {
-      const response = await fetch("http://localhost:5001/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ prompt: data }),
-      });
-      if (response.ok) {
-        const responseData = await response.json();
-        console.log("Response:", responseData);
-      } else {
-        console.error("HTTP Error:", response.status);
-      }
-    } catch (error) {
-      console.error("Network Error:", error);
-    }
+    onSendMessage(data);
   };
 
   return (
