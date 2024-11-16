@@ -1,7 +1,39 @@
 import HistoryComponent from "../HistoryComponent/historyComponent.component";
 import style from "./ChatHistory.module.scss";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { IChat } from "./../../utils/types";
+
 export default function ChatHistory() {
-  const createChat = () => {};
+  const createChat = async () => {
+    await fetch("http://localhost:5001/new-chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
+
+  const [chats, setChats] = useState<IChat[]>([]);
+  const [loading, setLoading] = useState<Boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchChats = async () => {
+      try {
+        const response = await axios.post("http://localhost:5001/get-chats");
+        setChats(response.data.chats);
+      } catch (err: any) {
+        setError(err?.messsage || "Failed to load chats");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchChats();
+  }, []);
+
+  if (loading) return <div>Loading ...</div>;
+  if (error) return <div>Error: {error}</div>;
   return (
     <aside className={style["history"]}>
       <div className={style["history-settings"]}>
@@ -24,7 +56,9 @@ export default function ChatHistory() {
           </svg>
         </button>
       </div>
-      <HistoryComponent />
+      {chats.map((chat) => (
+        <HistoryComponent chat={chat} />
+      ))}
     </aside>
   );
 }
