@@ -1,10 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { environment } from "../config/environment";
 
-// Initialize the client with the API key
 const genAI = new GoogleGenerativeAI(environment.geminiApiKey);
-
-// Load the specific model (replace "gemini-1.5-flash" with your desired model)
 const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
 export const generateText = async (prompt: string): Promise<string> => {
