@@ -16,6 +16,30 @@ export default function MessageInput() {
     }
   };
 
+  const sendRequest = async () => {
+    const textarea = textAreaRef.current;
+    if (!textarea || textarea.value.length === 0) return;
+    const data = textarea.value;
+    textarea.value = "";
+    try {
+      const response = await fetch("http://localhost:5001/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt: data }),
+      });
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log("Response:", responseData);
+      } else {
+        console.error("HTTP Error:", response.status);
+      }
+    } catch (error) {
+      console.error("Network Error:", error);
+    }
+  };
+
   return (
     <div className={styles["message-input"]}>
       <textarea
@@ -29,6 +53,7 @@ export default function MessageInput() {
           isButtonActive ? styles["message-input-active"] : ""
         }`}
         ref={sendButton}
+        onClick={sendRequest}
       >
         <svg
           width="32"
