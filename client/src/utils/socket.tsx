@@ -4,18 +4,28 @@ import { IChat } from "./types";
 let socket: Socket;
 
 export const useWebSocket = () => {
-  const connectWebScoket = () => {
+  const connectWebSocket = () => {
     if (!socket) {
       socket = io("http://localhost:5002");
       console.log("WebSocket Connected");
     }
   };
 
-  const onChatUpdated = (callback: (chat: IChat) => void) => {
+  const onChatUpdated = (
+    callback: (chat: IChat) => void
+  ): (() => void) | undefined => {
     if (!socket) return;
-    socket.on("chat-updated", (updatedChat: IChat) => {
+    const handler = (updatedChat: IChat) => {
       callback(updatedChat);
-    });
+    };
+
+    socket.on("chat-updated", handler);
+    return () => {
+      if (socket) {
+        socket.off("chat-updated", handler);
+        console.log("Listener for 'chat-updated' removed");
+      }
+    };
   };
 
   const disconnectWebSocket = () => {
@@ -24,5 +34,6 @@ export const useWebSocket = () => {
       console.log("WebSocket disconnected");
     }
   };
-  return { connectWebScoket, onChatUpdated, disconnectWebSocket };
+
+  return { connectWebSocket, onChatUpdated, disconnectWebSocket };
 };

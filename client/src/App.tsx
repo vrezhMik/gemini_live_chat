@@ -1,16 +1,19 @@
+// Import styles
 import "./styles/main.scss";
 
+// Import components
 import ChatContainer from "./components/ChatContainer/chatContainer.component";
 import ChatHistory from "./components/ChatHistory/chatHistory.component";
 import MobileHeader from "./components/MobileHeader/mobileHeader.component";
+
 export default function App() {
   return (
-    <div className="App">
+    <div className="app">
       <MobileHeader />
-      <div className={`main-container flex`}>
+      <main className="main-container flex">
         <ChatHistory />
         <ChatContainer />
-      </div>
+      </main>
     </div>
   );
 }

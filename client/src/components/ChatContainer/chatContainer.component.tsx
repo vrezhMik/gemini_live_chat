@@ -13,47 +13,38 @@ export default function ChatContainer() {
   const { isChoosed, setIsChoosed } = useIsChoosed();
   const { isRemoved, setIsRemoved } = useIsRemoved();
 
-  useEffect(() => {
-    const updateMessages = async () => {
-      if (activeId >= -1) {
-        const response = await fetch(
-          "http://localhost:5002/get-conversations",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ id: activeId }),
-          }
+  const fetchConversations = async (id: number) => {
+    try {
+      const response = await fetch("http://localhost:5002/get-conversations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      const data = await response.json();
+
+      if (data.conversation) {
+        const formattedMessages = data.conversation.messages.map(
+          (msg: Message) => ({
+            ...msg,
+            prompt:
+              typeof msg.prompt === "string"
+                ? {
+                    response: {
+                      candidates: [
+                        { content: { parts: [{ text: msg.prompt }] } },
+                      ],
+                    },
+                  }
+                : msg.prompt,
+          })
         );
-        const data = await response.json();
-        if (data.conversation) {
-          const formattedMessages = data.conversation?.messages.map(
-            (msg: Message) => ({
-              ...msg,
-              prompt:
-                typeof msg.prompt === "string"
-                  ? {
-                      response: {
-                        candidates: [
-                          { content: { parts: [{ text: msg.prompt }] } },
-                        ],
-                      },
-                    }
-                  : msg.prompt,
-            })
-          );
-          setMessages(formattedMessages);
-        }
+        setMessages(formattedMessages);
       }
-      setIsChoosed(false);
-    };
-    updateMessages();
-  }, [isChoosed]);
-  useEffect(() => {
-    setMessages([]);
-    setIsRemoved(false);
-  }, [isRemoved]);
+    } catch (error) {
+      console.error("Error fetching conversations:", error);
+    }
+  };
+
   const handleSendMessage = async (message: string, id: number) => {
     const userMessage: ExtendedMessage = {
       type: "client",
@@ -66,9 +57,7 @@ export default function ChatContainer() {
     try {
       const response = await fetch("http://localhost:5002/chat", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           prompt:
             userMessage.prompt.response.candidates[0].content.parts[0].text,
@@ -82,15 +71,31 @@ export default function ChatContainer() {
       };
       setMessages((prev) => [...prev, serverMessage]);
     } catch (error) {
-      console.error("Error fetching server response:", error);
+      console.error("Error sending message:", error);
     }
   };
+
+  useEffect(() => {
+    if (isChoosed && activeId >= -1) {
+      fetchConversations(activeId);
+      setIsChoosed(false);
+    }
+  }, [isChoosed, activeId]);
+
+  useEffect(() => {
+    if (isRemoved) {
+      setMessages([]);
+      setIsRemoved(false);
+    }
+  }, [isRemoved]);
 
   return (
     <div className={style.chat}>
       <div className={style["chat-container"]}>
         <MessagesContainer messages={messages} />
-        <MessageInput onSendMessage={handleSendMessage} />
+        <MessageInput
+          onSendMessage={(message) => handleSendMessage(message, activeId)}
+        />
       </div>
     </div>
   );

@@ -1,16 +1,13 @@
+import styles from "./MessagesContainer.module.scss";
+
 import ClientMessage from "../ClientMessage/clientMessage.component";
 import ServerMessage from "../ServerMessage/serverMessage.component";
-import styles from "./MessagesContainer.module.scss";
 import { Message, Prompt } from "../../utils/types";
 
-type TMessage = {
-  prompt: Prompt;
-};
 type MessageContainerProps = {
   messages: Array<Message & { prompt: Prompt; type: string }>;
 };
 
-let text: TMessage;
 export default function MessagesContainer({ messages }: MessageContainerProps) {
   return (
     <div className={styles.messages}>
