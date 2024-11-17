@@ -10,12 +10,19 @@ export default function ChatHistory() {
   const [error, setError] = useState<string | null>(null);
 
   const createChat = async () => {
-    await fetch("http://localhost:5002/new-chat", {
+    const response = await fetch("http://localhost:5002/new-chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
     });
+    const { chat } = await response.json();
+    const newChat = {
+      _id: chat._id,
+      name: chat.name,
+    };
+
+    setChats((prev) => [...prev, newChat]);
   };
 
   const handleRemoveChat = (id: number) => {

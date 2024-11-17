@@ -1,1 +1,16 @@
+# Ignore .env.local in server folder
 /server/.env.local
+
+# Ignore everything inside server/data
+/server/data/
+
+# Explicitly ignore specific file types in server/data
+/server/data/*.wt
+/server/data/*.lock
+/server/data/*.bson
+/server/data/*.turtle
+
+# Ignore diagnostic and journal subdirectories
+/server/data/diagnostic.data/
+# Trailing slashes ensure directories are ignored
+/server/data/journal/
