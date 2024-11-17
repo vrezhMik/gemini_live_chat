@@ -35,7 +35,9 @@ export default function ChatHistory() {
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        const response = await axios.post("http://localhost:5002/get-chats");
+        const response = await axios.post(
+          process.env.REACT_APP_BACKEND + "/get-chats"
+        );
         setChats(response.data.chats);
       } catch (err: any) {
         setError(err?.message || "Failed to load chats");

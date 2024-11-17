@@ -18,7 +18,7 @@ export default function MessageInput({ onSendMessage }: MessageInputProps) {
     if (textarea) {
       const isEmpty = textarea.value.trim().length === 0;
       setIsButtonActive(!isEmpty);
-      textarea.style.height = "auto"; // Reset height to recalculate
+      textarea.style.height = "auto";
       textarea.style.height = `${textarea.scrollHeight}px`;
     }
   };
@@ -35,8 +35,8 @@ export default function MessageInput({ onSendMessage }: MessageInputProps) {
     }
 
     const message = textarea.value.trim();
-    textarea.value = ""; // Clear textarea
-    setIsButtonActive(false); // Disable button after clearing
+    textarea.value = "";
+    setIsButtonActive(false);
     onSendMessage(message, chatId);
   };
 

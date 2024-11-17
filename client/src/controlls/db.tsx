@@ -1,5 +1,5 @@
 const createNewChat = async () => {
-  const response = await fetch("http://localhost:5002/new-chat", {
+  const response = await fetch(`${process.env.REACT_APP_BACKEND}/new-chat`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

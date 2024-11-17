@@ -15,11 +15,14 @@ export default function ChatContainer() {
 
   const fetchConversations = async (id: number) => {
     try {
-      const response = await fetch("http://localhost:5002/get-conversations", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND}/get-conversations`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id }),
+        }
+      );
       const data = await response.json();
 
       if (data.conversation) {
@@ -55,7 +58,7 @@ export default function ChatContainer() {
     setMessages((prev) => [...prev, userMessage]);
 
     try {
-      const response = await fetch("http://localhost:5002/chat", {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

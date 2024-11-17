@@ -20,14 +20,11 @@ export const chatController = async (
   }
 
   try {
-    // Find the conversation by chat_id
     const conversation = await Conversation.findOne({ chat_id });
     if (!conversation) {
       res.status(404).json({ error: "Conversation not found." });
       return;
     }
-
-    // Create the client message
     const clientMessage: Message = {
       type: "client",
       prompt: prompt,
@@ -35,23 +32,18 @@ export const chatController = async (
     };
     conversation.messages.push(clientMessage);
 
-    // Generate the server's response
     const responseContent = await generateText(prompt);
 
-    // Create the server message
     const serverMessage: Message = {
       type: "server",
       prompt: responseContent,
       timestamp: new Date(),
     };
 
-    // Add both messages to the conversation
     conversation.messages.push(serverMessage);
 
-    // Save the updated conversation
     await conversation.save();
 
-    // Respond with the server's reply
     res.status(200).json({ reply: responseContent });
   } catch (error) {
     console.error("Chat Controller Error:", error);

@@ -20,7 +20,7 @@ export default function HistoryComponent({ chat, onRemove }: ChatProps) {
 
   const removeChat = async (id: number) => {
     try {
-      await fetch("http://localhost:5002/remove-chat", {
+      await fetch(`${process.env.REACT_APP_BACKEND}/remove-chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),
@@ -36,7 +36,7 @@ export default function HistoryComponent({ chat, onRemove }: ChatProps) {
     const input = inputRef.current;
     if (!input) return;
     try {
-      await fetch("http://localhost:5002/rename-chat", {
+      await fetch(`${process.env.REACT_APP_BACKEND}/rename-chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id, name: input.value }),
@@ -98,7 +98,6 @@ export default function HistoryComponent({ chat, onRemove }: ChatProps) {
   );
 }
 
-// SaveIcon Component
 function SaveIcon() {
   return (
     <svg

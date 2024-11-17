@@ -1,5 +1,6 @@
 # Ignore .env.local in server folder
 /server/.env.local
+/client/.env.local
 
 # Ignore everything inside server/data
 /server/data/

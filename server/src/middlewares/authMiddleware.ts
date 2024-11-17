@@ -12,6 +12,5 @@ export const authMiddleware = (
     return;
   }
 
-  // Proceed without checking for a client key
   next();
 };

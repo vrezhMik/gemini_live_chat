@@ -8,8 +8,8 @@ export type Prompt = {
   };
 };
 export type Message = {
-  type: string; // e.g., 'client' or 'server'
-  prompt: string | Prompt; // Allow both string and structured Prompt
+  type: string;
+  prompt: string | Prompt;
 };
 
 export interface IChat {
