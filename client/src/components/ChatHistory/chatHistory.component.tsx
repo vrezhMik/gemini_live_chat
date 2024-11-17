@@ -3,11 +3,13 @@ import style from "./ChatHistory.module.scss";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { IChat } from "./../../utils/types";
+import { useWebSocket } from "../../utils/socket";
 
 export default function ChatHistory() {
   const [chats, setChats] = useState<IChat[]>([]);
   const [loading, setLoading] = useState<Boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const { connectWebScoket, onChatUpdated } = useWebSocket();
   //todo: add error handling
   const createChat = async () => {
     const response = await fetch("http://localhost:5002/new-chat", {
@@ -41,7 +43,16 @@ export default function ChatHistory() {
       }
     };
     fetchChats();
-  }, []);
+    connectWebScoket();
+
+    onChatUpdated((updatedChat: IChat) => {
+      setChats((prevChats) =>
+        prevChats.map((chat) =>
+          chat._id === updatedChat._id ? updatedChat : chat
+        )
+      );
+    });
+  }, [connectWebScoket, onChatUpdated]);
 
   if (loading) return <div>Loading ...</div>;
   if (error) return <div>Error: {error}</div>;
