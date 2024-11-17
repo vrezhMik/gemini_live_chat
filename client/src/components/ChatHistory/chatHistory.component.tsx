@@ -8,7 +8,7 @@ export default function ChatHistory() {
   const [chats, setChats] = useState<IChat[]>([]);
   const [loading, setLoading] = useState<Boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
+  //todo: add error handling
   const createChat = async () => {
     const response = await fetch("http://localhost:5002/new-chat", {
       method: "POST",

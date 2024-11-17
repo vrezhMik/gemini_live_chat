@@ -1,6 +1,5 @@
 import { Response, Request } from "express";
 import Chat from "../models/Chat";
-import { ResponseSchema } from "@google/generative-ai";
 
 export const removeChatController = async (
   req: Request,
