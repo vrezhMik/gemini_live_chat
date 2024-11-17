@@ -1,6 +1,6 @@
 import { Response, Request } from "express";
 import Chat from "../models/Chat";
-
+import Conversation from "../models/Conversation";
 export const removeChatController = async (
   req: Request,
   res: Response
@@ -13,9 +13,12 @@ export const removeChatController = async (
         message: "Chat ID is required",
       });
     }
-    const result = await Chat.deleteOne({ _id: id });
-
-    if (result.deletedCount === 0) {
+    const removeChat = await Chat.deleteOne({ _id: id });
+    const removeConversation = await Conversation.deleteOne({ chat_id: id });
+    if (
+      removeChat.deletedCount === 0 ||
+      removeConversation.deletedCount === 0
+    ) {
       return res.status(404).json({
         success: false,
         message: "Chat not found",
