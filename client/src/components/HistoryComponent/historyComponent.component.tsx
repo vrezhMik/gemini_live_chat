@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import styles from "./HistoryComponent.module.scss";
-import useActiveId from "../../store/store";
+import { useActiveId, useIsChoosed } from "../../store/store";
 type chatProps = {
   chat: {
     _id: number;
@@ -14,6 +14,7 @@ export default function HistoryComponent({ chat, onRemove }: chatProps) {
   const [name, setName] = useState(chat.name);
   const inputRef = useRef<HTMLInputElement>(null);
   const { setActiveId } = useActiveId();
+  const { isChoosed, setIsChoosed } = useIsChoosed();
   const remvoeChat = async (id: number) => {
     await fetch("http://localhost:5002/remove-chat", {
       method: "POST",
@@ -39,7 +40,8 @@ export default function HistoryComponent({ chat, onRemove }: chatProps) {
   };
 
   const setActiveChat = (id: number) => {
-    // setActiveId(id);
+    setActiveId(id);
+    setIsChoosed(true);
   };
   return (
     <div className={styles["history-element"]}>

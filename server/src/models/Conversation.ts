@@ -5,8 +5,8 @@ const ConversationSchema = new Schema({
   chat_id: { type: Number, required: true },
   messages: [
     {
-      sender: { type: String, required: true },
-      content: { type: Schema.Types.Mixed, required: true },
+      type: { type: String, required: true },
+      prompt: { type: Schema.Types.Mixed, required: true },
       timestamp: { type: Date, required: true, default: Date.now },
     },
   ],

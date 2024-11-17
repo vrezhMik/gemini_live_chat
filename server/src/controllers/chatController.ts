@@ -3,8 +3,8 @@ import { generateText } from "../services/geminiService";
 import Conversation from "../models/Conversation";
 
 type Message = {
-  sender: string;
-  content: any;
+  type: string;
+  prompt: any;
   timestamp: Date;
 };
 
@@ -29,23 +29,24 @@ export const chatController = async (
 
     // Create the client message
     const clientMessage: Message = {
-      sender: "client",
-      content: prompt,
+      type: "client",
+      prompt: prompt,
       timestamp: new Date(),
     };
+    conversation.messages.push(clientMessage);
 
     // Generate the server's response
     const responseContent = await generateText(prompt);
 
     // Create the server message
     const serverMessage: Message = {
-      sender: "server",
-      content: responseContent,
+      type: "server",
+      prompt: responseContent,
       timestamp: new Date(),
     };
 
     // Add both messages to the conversation
-    conversation.messages.push(clientMessage, serverMessage);
+    conversation.messages.push(serverMessage);
 
     // Save the updated conversation
     await conversation.save();

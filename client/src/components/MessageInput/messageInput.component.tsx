@@ -1,6 +1,6 @@
 import styles from "./MessageInput.module.scss";
 import { useRef, useState } from "react";
-import useActiveId from "../../store/store";
+import { useActiveId } from "../../store/store";
 import createNewChat from "../../controlls/db";
 type MessageInputProps = {
   onSendMessage: (message: string, id: number) => void;
