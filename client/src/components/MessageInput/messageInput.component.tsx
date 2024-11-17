@@ -1,17 +1,15 @@
 import styles from "./MessageInput.module.scss";
 import { useRef, useState } from "react";
-import { setActiveId, clearActiveId } from "../../store/activeID";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../store";
+import useActiveId from "../../store/store";
+import createNewChat from "../../controlls/db";
 type MessageInputProps = {
-  onSendMessage: (message: string) => void;
+  onSendMessage: (message: string, id: number) => void;
 };
 export default function MessageInput({ onSendMessage }: MessageInputProps) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const sendButton = useRef<HTMLButtonElement>(null);
   const [isButtonActive, setIsButtonActive] = useState(true);
-  const dispatch = useDispatch();
-  const activeId = useSelector((state: RootState) => state.activeId);
+  const { activeId, setActiveId } = useActiveId();
 
   const handleInput = () => {
     const textarea = textAreaRef.current;
@@ -24,12 +22,19 @@ export default function MessageInput({ onSendMessage }: MessageInputProps) {
     }
   };
 
+  //todo: rename
   const sendRequest = async () => {
     const textarea = textAreaRef.current;
     if (!textarea || textarea.value.length === 0) return;
+    let chatId = activeId;
+    if (activeId === -1) {
+      const newChat = await createNewChat();
+      chatId = newChat._id;
+      setActiveId(newChat._id);
+    }
     const data = textarea.value;
     textarea.value = "";
-    onSendMessage(data);
+    onSendMessage(data, chatId);
   };
 
   return (

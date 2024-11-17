@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { IChat } from "./../../utils/types";
 import { useWebSocket } from "../../utils/socket";
+import createNewChat from "../../controlls/db";
 
 export default function ChatHistory() {
   const [chats, setChats] = useState<IChat[]>([]);
@@ -12,18 +13,7 @@ export default function ChatHistory() {
   const { connectWebScoket, onChatUpdated } = useWebSocket();
   //todo: add error handling
   const createChat = async () => {
-    const response = await fetch("http://localhost:5002/new-chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const { chat } = await response.json();
-    const newChat = {
-      _id: chat._id,
-      name: chat.name,
-    };
-
+    const newChat = await createNewChat();
     setChats((prev) => [...prev, newChat]);
   };
 

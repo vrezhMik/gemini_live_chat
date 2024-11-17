@@ -1,12 +1,14 @@
 import MessageInput from "../MessageInput/messageInput.component";
 import MessagesContainer from "../MessagesContainer/messagesContainer.component";
 import style from "./ChatContainer.module.scss";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Message } from "../../utils/types";
+import useActiveId from "../../store/store";
 
 export default function ChatContainer() {
+  const { activeId } = useActiveId();
   const [messages, setMessages] = useState<Message[]>([]);
-  const handleSendMessage = async (message: string) => {
+  const handleSendMessage = async (message: string, id: number) => {
     const userMessage: Message = { type: "client", prompt: message };
     setMessages((prev) => [...prev, userMessage]); // Add user message
 
@@ -16,10 +18,9 @@ export default function ChatContainer() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ prompt: userMessage.prompt }),
+        body: JSON.stringify({ prompt: userMessage.prompt, chat_id: id }),
       });
       const data = await response.json();
-
       const serverMessage: Message = {
         type: "server",
         prompt: data.reply.response.candidates[0].content.parts[0].text,

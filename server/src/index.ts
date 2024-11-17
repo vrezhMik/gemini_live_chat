@@ -24,22 +24,14 @@ app.use(authMiddleware);
 app.use("/", chatRoutes);
 app.use(errorHandler);
 io.on("connection", (socket) => {
-  console.log(`Client connected: ${socket.id}`);
-
-  // Listen for custom events
   socket.on("chat-updated", (data) => {
     console.log("Chat updated:", data);
-    // Broadcast the update to all connected clients
     io.emit("chat-updated", data);
   });
-
-  // Handle client disconnection
   socket.on("disconnect", () => {
     console.log(`Client disconnected: ${socket.id}`);
   });
 });
-
-// Start the server
 server.listen(environment.port, () => {
   console.log(`Server running at http://localhost:${environment.port}`);
 });

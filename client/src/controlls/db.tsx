@@ -1,13 +1,16 @@
-import { json } from "stream/consumers";
-
-async function createHistoryDB(): Promise<Response> {
+const createNewChat = async () => {
   const response = await fetch("http://localhost:5002/new-chat", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
   });
-  return response;
-}
+  const { chat } = await response.json();
+  const newChat = {
+    _id: chat._id,
+    name: chat.name,
+  };
 
-export default createHistoryDB;
+  return newChat;
+};
+export default createNewChat;

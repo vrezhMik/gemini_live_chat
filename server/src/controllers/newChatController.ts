@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { getNextSequence } from "../utils/getNextSequence";
 import Chat from "../models/Chat";
+import Conversation from "../models/Conversation";
 
 export const newChatController = async (req: Request, res: Response) => {
   try {
@@ -11,6 +12,13 @@ export const newChatController = async (req: Request, res: Response) => {
     });
     await newChat.save();
 
+    const nextConversationId = await getNextSequence("conversation_id");
+    const newConversation = new Conversation({
+      _id: nextConversationId,
+      chat_id: nextId,
+      messages: [],
+    });
+    newConversation.save();
     res.status(201).json({
       success: true,
       message: "Chat created successfully",
