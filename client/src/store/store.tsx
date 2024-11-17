@@ -1,16 +1,20 @@
 import { create } from "zustand";
 
-// Define the shape of your store
 interface ActiveIdState {
-  activeId: number; // State property
-  setActiveId: (id: number) => void; // Action
+  activeId: number;
+  setActiveId: (id: number) => void;
 }
 
 interface isChoosedState {
-  isChoosed: boolean; // State property
-  setIsChoosed: (state: boolean) => void; // Action
+  isChoosed: boolean;
+  setIsChoosed: (state: boolean) => void;
 }
-// Create the store with types
+
+interface isRemovedState {
+  isRemoved: boolean;
+  setIsRemoved: (state: boolean) => void;
+}
+
 export const useActiveId = create<ActiveIdState>((set) => ({
   activeId: -1,
   setActiveId: (id: number) => set(() => ({ activeId: id })),
@@ -19,4 +23,9 @@ export const useActiveId = create<ActiveIdState>((set) => ({
 export const useIsChoosed = create<isChoosedState>((set) => ({
   isChoosed: true,
   setIsChoosed: (state: boolean) => set(() => ({ isChoosed: state })),
+}));
+
+export const useIsRemoved = create<isRemovedState>((set) => ({
+  isRemoved: false,
+  setIsRemoved: (state: boolean) => set(() => ({ isRemoved: state })),
 }));

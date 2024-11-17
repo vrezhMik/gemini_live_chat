@@ -3,7 +3,7 @@ import MessageInput from "../MessageInput/messageInput.component";
 import MessagesContainer from "../MessagesContainer/messagesContainer.component";
 import style from "./ChatContainer.module.scss";
 import { Message, Prompt } from "../../utils/types";
-import { useActiveId, useIsChoosed } from "../../store/store";
+import { useActiveId, useIsChoosed, useIsRemoved } from "../../store/store";
 
 type ExtendedMessage = Message & { prompt: Prompt; type: string };
 
@@ -11,6 +11,7 @@ export default function ChatContainer() {
   const [messages, setMessages] = useState<ExtendedMessage[]>([]);
   const { activeId } = useActiveId();
   const { isChoosed, setIsChoosed } = useIsChoosed();
+  const { isRemoved, setIsRemoved } = useIsRemoved();
 
   useEffect(() => {
     const updateMessages = async () => {
@@ -49,7 +50,10 @@ export default function ChatContainer() {
     };
     updateMessages();
   }, [isChoosed]);
-
+  useEffect(() => {
+    setMessages([]);
+    setIsRemoved(false);
+  }, [isRemoved]);
   const handleSendMessage = async (message: string, id: number) => {
     const userMessage: ExtendedMessage = {
       type: "client",

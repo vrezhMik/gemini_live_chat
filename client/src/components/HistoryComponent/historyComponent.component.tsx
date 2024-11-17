@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import styles from "./HistoryComponent.module.scss";
-import { useActiveId, useIsChoosed } from "../../store/store";
+import { useActiveId, useIsChoosed, useIsRemoved } from "../../store/store";
 type chatProps = {
   chat: {
     _id: number;
@@ -14,7 +14,8 @@ export default function HistoryComponent({ chat, onRemove }: chatProps) {
   const [name, setName] = useState(chat.name);
   const inputRef = useRef<HTMLInputElement>(null);
   const { setActiveId } = useActiveId();
-  const { isChoosed, setIsChoosed } = useIsChoosed();
+  const { setIsChoosed } = useIsChoosed();
+  const { setIsRemoved } = useIsRemoved();
   const remvoeChat = async (id: number) => {
     await fetch("http://localhost:5002/remove-chat", {
       method: "POST",
@@ -23,6 +24,7 @@ export default function HistoryComponent({ chat, onRemove }: chatProps) {
       },
       body: JSON.stringify({ id: id }),
     });
+    setIsRemoved(true);
     onRemove(id);
   };
 
