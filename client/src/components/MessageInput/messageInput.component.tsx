@@ -33,6 +33,7 @@ export default function MessageInput({ onSendMessage }: MessageInputProps) {
         body: JSON.stringify({ chat_id: activeId }),
       }
     );
+    if (!response) console.log("Faild to fetch");
   };
 
   const handleSendMessage = async () => {

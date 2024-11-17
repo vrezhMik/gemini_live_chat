@@ -17,7 +17,7 @@ export default function ChatContainer() {
   const { activeId } = useActiveId();
   const { isChoosed, setIsChoosed } = useIsChoosed();
   const { isRemoved, setIsRemoved } = useIsRemoved();
-  const { isGenerating, setisGenerating } = useIsGenerating();
+  const { setisGenerating } = useIsGenerating();
   const fetchConversations = async (id: number) => {
     try {
       const response = await fetch(
@@ -89,15 +89,14 @@ export default function ChatContainer() {
       fetchConversations(activeId);
       setIsChoosed(false);
     }
-  }, [isChoosed, activeId]);
+  }, [isChoosed, activeId, setIsChoosed]);
 
   useEffect(() => {
     if (isRemoved) {
       setMessages([]);
       setIsRemoved(false);
     }
-  }, [isRemoved]);
-
+  }, [isRemoved, setMessages, setIsRemoved]);
   return (
     <div className={style.chat}>
       <div className={style["chat-container"]}>
