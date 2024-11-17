@@ -1,6 +1,8 @@
 import styles from "./MessageInput.module.scss";
 import { useRef, useState } from "react";
-
+import { setActiveId, clearActiveId } from "../../store/activeID";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../store";
 type MessageInputProps = {
   onSendMessage: (message: string) => void;
 };
@@ -8,6 +10,8 @@ export default function MessageInput({ onSendMessage }: MessageInputProps) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const sendButton = useRef<HTMLButtonElement>(null);
   const [isButtonActive, setIsButtonActive] = useState(true);
+  const dispatch = useDispatch();
+  const activeId = useSelector((state: RootState) => state.activeId);
 
   const handleInput = () => {
     const textarea = textAreaRef.current;

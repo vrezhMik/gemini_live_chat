@@ -7,6 +7,9 @@ import { renameChatController } from "../controllers/renameChatController";
 
 const router = express.Router();
 
+router.get("/", (req, res) => {
+  res.send("");
+});
 router.post("/chat", chatController);
 router.post("/new-chat", newChatController);
 router.post("/get-chats", getAllChatsController);

@@ -6,14 +6,40 @@ import { errorHandler } from "./utils/errorHandler";
 import { environment } from "./config/environment";
 import { connectDB } from "./config/db";
 var cors = require("cors");
+import http from "http";
+import { Server } from "socket.io";
 connectDB();
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
 app.use(cors());
 app.use(bodyParser.json());
 app.use(authMiddleware);
 app.use("/", chatRoutes);
 app.use(errorHandler);
-app.listen(environment.port, () => {
+io.on("connection", (socket) => {
+  console.log(`Client connected: ${socket.id}`);
+
+  // Listen for custom events
+  socket.on("chat-updated", (data) => {
+    console.log("Chat updated:", data);
+    // Broadcast the update to all connected clients
+    io.emit("chat-updated", data);
+  });
+
+  // Handle client disconnection
+  socket.on("disconnect", () => {
+    console.log(`Client disconnected: ${socket.id}`);
+  });
+});
+
+// Start the server
+server.listen(environment.port, () => {
   console.log(`Server running at http://localhost:${environment.port}`);
 });

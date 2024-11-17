@@ -1,5 +1,8 @@
 import { useRef, useState } from "react";
 import styles from "./HistoryComponent.module.scss";
+import { setActiveId, clearActiveId } from "../../store/activeID";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../store";
 type chatProps = {
   chat: {
     _id: number;
@@ -12,7 +15,8 @@ export default function HistoryComponent({ chat, onRemove }: chatProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(chat.name);
   const inputRef = useRef<HTMLInputElement>(null);
-
+  const dispatch = useDispatch();
+  const activeId = useSelector((state: RootState) => state.activeId);
   const remvoeChat = async (id: number) => {
     await fetch("http://localhost:5002/remove-chat", {
       method: "POST",
@@ -36,6 +40,10 @@ export default function HistoryComponent({ chat, onRemove }: chatProps) {
     });
     setIsEditing(false);
   };
+
+  const setActiveChat = (id: number) => {
+    dispatch(setActiveId(id));
+  };
   return (
     <div className={styles["history-element"]}>
       {isEditing ? (
@@ -46,7 +54,12 @@ export default function HistoryComponent({ chat, onRemove }: chatProps) {
           onChange={(e) => setName(e.target.value)}
         />
       ) : (
-        <a href="">{chat.name}</a>
+        <button
+          className={styles["history-element-button"]}
+          onClick={() => setActiveChat(chat._id)}
+        >
+          {chat.name}
+        </button>
       )}
 
       <div className={styles["history-element-control"]}>
