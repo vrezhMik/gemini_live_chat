@@ -5,15 +5,20 @@ import axios from "axios";
 import { IChat } from "./../../utils/types";
 import { useWebSocket } from "../../utils/socket";
 import createNewChat from "../../controlls/db";
+import { useActiveId, useIsRemoved } from "../../store/store";
 
 export default function ChatHistory() {
   const [chats, setChats] = useState<IChat[]>([]);
   const [loading, setLoading] = useState<Boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const { connectWebScoket, onChatUpdated } = useWebSocket();
+  const { setActiveId } = useActiveId();
+  const { setIsRemoved } = useIsRemoved();
   //todo: add error handling
   const createChat = async () => {
     const newChat = await createNewChat();
+    setActiveId(newChat._id);
+    setIsRemoved(true);
     setChats((prev) => [...prev, newChat]);
   };
 
