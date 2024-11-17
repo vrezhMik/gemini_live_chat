@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { chatController } from "../controllers/chatController";
+import { abortChat, chatController } from "../controllers/chatController";
 import { newChatController } from "../controllers/newChatController";
 import { getAllChatsController } from "../controllers/getAllChatsController";
 import { removeChatController } from "../controllers/removeChatController";
@@ -14,5 +14,6 @@ router.post("/get-chats", getAllChatsController);
 router.post("/get-conversations", getAllConversationsController);
 router.post("/remove-chat", removeChatController);
 router.post("/rename-chat", renameChatController);
+router.post("/abort-message", abortChat);
 
 export default router;

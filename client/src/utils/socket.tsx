@@ -7,7 +7,6 @@ export const useWebSocket = () => {
   const connectWebSocket = () => {
     if (!socket) {
       socket = io("http://localhost:5002");
-      console.log("WebSocket Connected");
     }
   };
 
@@ -23,7 +22,6 @@ export const useWebSocket = () => {
     return () => {
       if (socket) {
         socket.off("chat-updated", handler);
-        console.log("Listener for 'chat-updated' removed");
       }
     };
   };
@@ -31,7 +29,6 @@ export const useWebSocket = () => {
   const disconnectWebSocket = () => {
     if (socket) {
       socket.disconnect();
-      console.log("WebSocket disconnected");
     }
   };
 

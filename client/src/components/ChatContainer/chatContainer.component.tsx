@@ -3,7 +3,12 @@ import MessageInput from "../MessageInput/messageInput.component";
 import MessagesContainer from "../MessagesContainer/messagesContainer.component";
 import style from "./ChatContainer.module.scss";
 import { Message, Prompt } from "../../utils/types";
-import { useActiveId, useIsChoosed, useIsRemoved } from "../../store/store";
+import {
+  useActiveId,
+  useIsChoosed,
+  useIsRemoved,
+  useIsGenerating,
+} from "../../store/store";
 
 type ExtendedMessage = Message & { prompt: Prompt; type: string };
 
@@ -12,7 +17,7 @@ export default function ChatContainer() {
   const { activeId } = useActiveId();
   const { isChoosed, setIsChoosed } = useIsChoosed();
   const { isRemoved, setIsRemoved } = useIsRemoved();
-
+  const { isGenerating, setisGenerating } = useIsGenerating();
   const fetchConversations = async (id: number) => {
     try {
       const response = await fetch(
@@ -73,6 +78,7 @@ export default function ChatContainer() {
         prompt: data.reply,
       };
       setMessages((prev) => [...prev, serverMessage]);
+      setisGenerating(false);
     } catch (error) {
       console.error("Error sending message:", error);
     }

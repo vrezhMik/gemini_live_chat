@@ -14,6 +14,10 @@ interface isRemovedState {
   isRemoved: boolean;
   setIsRemoved: (state: boolean) => void;
 }
+interface isGeneratingState {
+  isGenerating: boolean;
+  setisGenerating: (state: boolean) => void;
+}
 
 export const useActiveId = create<ActiveIdState>((set) => ({
   activeId: -1,
@@ -28,4 +32,9 @@ export const useIsChoosed = create<isChoosedState>((set) => ({
 export const useIsRemoved = create<isRemovedState>((set) => ({
   isRemoved: false,
   setIsRemoved: (state: boolean) => set(() => ({ isRemoved: state })),
+}));
+
+export const useIsGenerating = create<isGeneratingState>((set) => ({
+  isGenerating: false,
+  setisGenerating: (state: boolean) => set(() => ({ isGenerating: state })),
 }));
