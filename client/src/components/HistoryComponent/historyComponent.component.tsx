@@ -4,9 +4,10 @@ type chatProps = {
     _id: number;
     name: string;
   };
+  onRemove: (id: number) => void;
 };
-
-export default function HistoryComponent({ chat }: chatProps) {
+//todo: add error handling
+export default function HistoryComponent({ chat, onRemove }: chatProps) {
   const remvoeChat = async (id: number) => {
     await fetch("http://localhost:5002/remove-chat", {
       method: "POST",
@@ -15,6 +16,7 @@ export default function HistoryComponent({ chat }: chatProps) {
       },
       body: JSON.stringify({ id: id }),
     });
+    onRemove(id);
   };
   const renameChat = async () => {
     console.log("rename");

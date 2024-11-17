@@ -5,6 +5,10 @@ import axios from "axios";
 import { IChat } from "./../../utils/types";
 
 export default function ChatHistory() {
+  const [chats, setChats] = useState<IChat[]>([]);
+  const [loading, setLoading] = useState<Boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
   const createChat = async () => {
     await fetch("http://localhost:5002/new-chat", {
       method: "POST",
@@ -14,9 +18,9 @@ export default function ChatHistory() {
     });
   };
 
-  const [chats, setChats] = useState<IChat[]>([]);
-  const [loading, setLoading] = useState<Boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const handleRemoveChat = (id: number) => {
+    setChats((prev) => prev.filter((chat) => chat._id !== id));
+  };
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -57,7 +61,7 @@ export default function ChatHistory() {
         </button>
       </div>
       {chats.map((chat, index) => (
-        <HistoryComponent chat={chat} key={index} />
+        <HistoryComponent chat={chat} key={index} onRemove={handleRemoveChat} />
       ))}
     </aside>
   );
