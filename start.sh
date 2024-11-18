@@ -93,6 +93,6 @@ npm i
 echo "Building the frontend..."
 npm run build
 
-echo "Starting the frontend in development mode..."
+echo "Starting the frontend in production mode..."
 npm i -g serve
 serve -s build

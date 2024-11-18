@@ -5,4 +5,7 @@
   height: 100%;
   z-index: 1;
   padding-bottom: 30px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
