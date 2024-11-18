@@ -36,6 +36,41 @@ cleanup() {
 trap cleanup SIGINT
 
 
+install_mongod() {
+  if ! command -v mongod &>/dev/null; then
+    echo "MongoDB is not installed. Installing MongoDB..."
+    if [ "$(uname)" == "Darwin" ]; then
+      # macOS
+      brew tap mongodb/brew
+      brew install mongodb-community@6.0
+    elif [ -f /etc/debian_version ]; then
+      # Ubuntu/Debian
+      wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
+      echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+      sudo apt update
+      sudo apt install -y mongodb-org
+    elif [ -f /etc/redhat-release ]; then
+      # RHEL/CentOS
+      sudo tee -a /etc/yum.repos.d/mongodb-org-6.0.repo <<EOL
+[mongodb-org-6.0]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/redhat/\$releasever/mongodb-org/6.0/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-6.0.asc
+EOL
+      sudo yum install -y mongodb-org
+    else
+      echo "Unsupported OS. Please install MongoDB manually."
+      exit 1
+    fi
+    echo "MongoDB installed successfully."
+  else
+    echo "MongoDB is already installed."
+  fi
+}
+
+
 kill_port_27017() {
   if lsof -i :27017 >/dev/null; then
     echo "Port 27017 is in use. Killing the process..."
@@ -45,6 +80,10 @@ kill_port_27017() {
     echo "Port 27017 is available."
   fi
 }
+
+
+echo "Checking MongoDB installation..."
+install_mongod
 
 
 echo "Navigating to the server directory..."
