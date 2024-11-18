@@ -54,6 +54,7 @@ export default function ChatContainer() {
   };
 
   const handleSendMessage = async (message: string, id: number) => {
+    console.log("id", id);
     const userMessage: ExtendedMessage = {
       type: "client",
       prompt: {
@@ -61,7 +62,6 @@ export default function ChatContainer() {
       },
     };
     setMessages((prev) => [...prev, userMessage]);
-
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND}/chat`, {
         method: "POST",
@@ -101,9 +101,7 @@ export default function ChatContainer() {
     <div className={style.chat}>
       <div className={style["chat-container"]}>
         <MessagesContainer messages={messages} />
-        <MessageInput
-          onSendMessage={(message) => handleSendMessage(message, activeId)}
-        />
+        <MessageInput onSendMessage={handleSendMessage} />
       </div>
     </div>
   );

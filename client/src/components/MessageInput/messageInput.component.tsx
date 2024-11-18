@@ -38,20 +38,20 @@ export default function MessageInput({ onSendMessage }: MessageInputProps) {
 
   const handleSendMessage = async () => {
     const textarea = textAreaRef.current;
-    if (!textarea || textarea.value.trim().length === 0) return;
-
     let chatId = activeId;
-    setisGenerating(true);
-    if (activeId === -1) {
-      const newChat = await createNewChat();
-      chatId = newChat._id;
-      setActiveId(chatId);
-    }
 
+    if (!textarea || textarea.value.trim().length === 0) return;
+    setisGenerating(true);
     const message = textarea.value.trim();
     textarea.value = "";
-    setIsButtonActive(false);
+
+    if (chatId === -1) {
+      const newChat = await createNewChat();
+      chatId = newChat._id;
+      setActiveId(newChat._id);
+    }
     onSendMessage(message, chatId);
+    setIsButtonActive(false);
   };
 
   return (
