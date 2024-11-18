@@ -1,8 +1,3 @@
-
-# Gemini AI Chat
-
-A brief description of what this project does and who it's for
-
 # 🌟 Gemini AI Clone
 A full-stack implementation of a conversational AI tool, designed for seamless deployment and development. This project automates the setup process, requiring minimal manual intervention.
 
