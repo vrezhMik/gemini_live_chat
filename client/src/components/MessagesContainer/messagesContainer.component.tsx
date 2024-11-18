@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import styles from "./MessagesContainer.module.scss";
 
 import ClientMessage from "../ClientMessage/clientMessage.component";
@@ -9,8 +10,16 @@ type MessageContainerProps = {
 };
 
 export default function MessagesContainer({ messages }: MessageContainerProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   return (
-    <div className={styles.messages}>
+    <div className={styles.messages} ref={containerRef}>
       {messages.map((message, index) => {
         if (message.type === "client") {
           const clientText =
