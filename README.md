@@ -15,9 +15,9 @@ Shell Script: Automates the build and deployment processes.
 🛠️ Setup and Installation
 ⚙️ Prerequisites
 Ensure the following are installed on your system:
+Docker: Download Docker
 
-# Docker: Download Docker
-🔄 Automated Setup
+# 🔄 Automated Setup
 Clone this repository to your local machine:
 ```
 git clone <repository-url>
