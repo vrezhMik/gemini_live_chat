@@ -85,7 +85,6 @@ export default function MessageInput({ onSendMessage }: MessageInputProps) {
   );
 }
 
-// SendIcon Component
 function SendIcon() {
   return (
     <svg

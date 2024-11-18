@@ -118,7 +118,6 @@ function SaveIcon() {
   );
 }
 
-// EditIcon Component
 function EditIcon() {
   return (
     <svg

@@ -57,7 +57,6 @@ export default function ChatHistory() {
       );
     });
 
-    // Cleanup WebSocket subscription
     return () => {
       if (unsubscribe) unsubscribe();
     };
